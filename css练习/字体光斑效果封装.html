@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		span{
+			font-size: 60px;
+			color:rgba(0,0,0,0.6);
+		}
+
+	</style>
+</head>
+<body>
+	
+	<span style="font-size:60px">光斑效果测试</span>
+	<div>光斑效果测试</div>
+
+	<script type="text/javascript">
+		function lightSpotMove(opt){
+			var setting = {
+				ele:null,
+				time:20,
+				oTime:null,
+				iLeft:0
+			}
+
+			for(var attr in opt){
+				setting[attr] = opt[attr] || setting[attr]; 
+			}
+			console.log(setting)
+			if(!setting.ele){
+				console.log("请输入相应元素!");
+				return;
+			}
+			initAttr(setting);
+		}
+
+		function initAttr(setting){
+			var ele = setting.ele;
+			ele.style.display = "inline-block";
+			var wid = ele.offsetWidth;
+			setting.eleWidth = wid;
+			setting.iLeft = parseInt(wid/2);
+			ele.style.background = '-webkit-linear-gradient(-30deg,rgba(0,0,0,0) 0,rgba(0,0,0,0)'
+								+'90px,rgba(0,0,0,0.8) 110px,rgba(0,0,0,0) 120px) no-repeat -150px 0';
+								+'-webkit-background-clip:text;';
+
+
+			setting.interTime = setting.time*2 + 1000;
+			setting.iLeft = -setting.eleWidth;
+			move(setting);
+		}
+
+		function move(setting){
+			var iLeft = -300;
+			setting.oTime = setInterval(function(){
+				iLeft += 2;
+				console.log(setting.eleWidth)
+				if(iLeft > setting.eleWidth){
+					iLeft = -setting.eleWidth
+					clearInterval(setting.oTime);
+				}
+				setting.ele.style.backgroundPosition = iLeft+"px 0px";
+			},10);
+
+			lightSpotMove();
+			setInterval(function(){
+				move(setting);
+			},3000);
+		}
+
+		lightSpotMove({
+			ele:document.getElementsByTagName("span")[0]
+		});
+/*
+		var span = document.getElementsByTagName("span")[0];
+		span.style.background = '-webkit-linear-gradient(-30deg,rgba(0,0,0,0) 0,rgba(0,0,0,0)'
+								+'90px,rgba(0,0,0,0.8) 110px,rgba(0,0,0,0) 120px) no-repeat -150px 0';
+								+'-webkit-background-clip:text;';
+		console.log(span.style.background)
+*/
+	</script>
+</body>
+</html>
